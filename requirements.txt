@@ -1,0 +1,14 @@
+#
+####### Assumes Python 3 only #######
+#
+
+###### General ######
+influxdb
+
+###### Raspberry specific ######
+Adafruit_DHT
+RPi.GPIO
+rpi_ws281x
+adafruit-circuitpython-lis3dh
+adafruit-circuitpython-mcp3xxx
+adafruit-circuitpython-neopixel
