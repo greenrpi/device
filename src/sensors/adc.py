@@ -1,17 +1,28 @@
-import spidev
 import time
-import sys
+import busio
+import digitalio
+import board
+import adafruit_mcp3xxx.mcp3008 as MCP
+from adafruit_mcp3xxx.analog_in import AnalogIn
 
-spi = spidev.SpiDev()
-spi.open(0, 0)
+SOIL_SOUTH_1_PIN = MCP.P1
+SOIL_SOUTH_2_PIN = MCP.P2
+SOIL_NORTH_1_PIN = MCP.P3
+SOIL_NORTH_2_PIN = MCP.P4
+RAIN_1_PIN = MCP.P5
+RAIN_2_PIN = MCP.P6
 
+# create the spi bus
+spi = busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI)
 
-def readadc(adcnum):
-    r = spi.xfer2([1,8+adcnum<<4,0])
-    adcout = ((r[1]&3)<< 8)+r[2]
-    print(r)
-    return adcout
+# create the cs (chip select)
+cs = digitalio.DigitalInOut(board.D5)
 
+# create the mcp object
+mcp = MCP.MCP3008(spi, cs)
 
-for channel in range(8):
-    print('Napatie kanal'+str((channel))+ 'je' + str(readadc(channel)))
+def readRaw(pin):
+    # create an analog input channel
+    channel = AnalogIn(mcp, pin)
+
+    return channel.value

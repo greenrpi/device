@@ -3,5 +3,6 @@ config = {
     'dbname': 'company',
     'user': 'user',
     'password': 'password',
-    'port': 8086
+    'port': 8086,
+    'ssl': False
 }
